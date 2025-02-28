@@ -8,47 +8,23 @@
 #get_filename_component(WARPSDK_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../.. ABSOLUTE)
 #set(WARPSDK_SYSROOT "${WARPSDK_ROOT}/sysroot")
 
-list(APPEND CMAKE_MODULE_PATH "${WARPSDK_ROOT}/cmake/Modules")
-
-set(CMAKE_SYSTEM_NAME Yuniwarp)
-set(CMAKE_SYSTEM_VERSION 1) # ??
-
-set(CMAKE_CROSSCOMPILING TRUE) # FIXME: ??
+#list(APPEND CMAKE_MODULE_PATH "${WARPSDK_ROOT}/cmake/Modules")
 
 # Hacks
-if(CMAKE_HOST_WIN32)
-    # CMAKE_DIAGNOSE_UNSUPPORTED_CLANG Workaround
-    message(STATUS "Disable Host_Win32 (WAR)")
-    set(CMAKE_HOST_WIN32)
-endif()
-
-# Emscripten hacks
-set(CMAKE_SYSTEM_PROCESSOR x86) # We're 32bits
-set(WIN32)
-set(APPLE)
-if(CMAKE_TOOLCHAIN_FILE)
-    # Do nothing, just consume the variable
-endif()
-
-
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+#if(CMAKE_HOST_WIN32)
+#    # CMAKE_DIAGNOSE_UNSUPPORTED_CLANG Workaround
+#    message(STATUS "Disable Host_Win32 (WAR)")
+#    set(CMAKE_HOST_WIN32)
+#endif()
 
 # Warp32 specific variables
 set(WARP32_TARGET_TRIPLE "wasm32")
 set(WARP32_THREAD_MODEL "") # Enable Pthread defines
 set(WARP32_CFLAGS_WAR "")
 
-# FIXME: We still need to provide memcpy memmove memset memcmp REF: https://gcc.gnu.org/onlinedocs/gcc/Standards.html
-set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} --sysroot=${WARPSDK_SYSROOT} -ffreestanding")
 set(WARP32_DEFS "-D__WARP32LE__ -D__WARP32__ -D__WARP__")
-# FIXME: Per-symbol exports might be prefered -- needs .def though
-#        --Wl,--export=SYMBOL
-#set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -Wl,--export-dynamic -Wl,--allow-undefined-file=${WARPSDK_SYSROOT}/sysroot.syms")
-set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -Wl,--export-dynamic -Wl,--allow-undefined")
-#set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry") ## For newer LLVM
+set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} --sysroot=${WARPSDK_SYSROOT}")
+set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc")
 
 # Configure compiler templates
 
@@ -61,9 +37,6 @@ foreach(lang C CXX)
     string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -Os -DNDEBUG")
     string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -O3 -DNDEBUG")
     string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -O2 -g -DNDEBUG")
-    set(CMAKE_${lang}_COMPILER "${WARPSDK_CLANG}")
-    set(CMAKE_${lang}_COMPILER_ID Clang)
-    set(CMAKE_${lang}_COMPILER_WORKS TRUE)
 
     # Object
     set(CMAKE_${lang}_COMPILE_OBJECT "<CMAKE_${lang}_COMPILER> ${WARP32_CFLAGS} ${WARP32_DEFS} <DEFINES> <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>")
