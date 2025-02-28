@@ -1,3 +1,6 @@
 [submodule "picolibc"]
 	path = picolibc
 	url = https://github.com/okuoku/picolibc
+[submodule "llvm-project"]
+	path = llvm-project
+	url = https://github.com/okuoku/llvm-project
