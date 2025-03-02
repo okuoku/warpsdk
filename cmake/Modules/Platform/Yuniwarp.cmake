@@ -23,7 +23,7 @@ set(WARP32_THREAD_MODEL "") # Enable Pthread defines
 set(WARP32_CFLAGS_WAR "")
 
 set(WARP32_DEFS "-D__WARP32LE__ -D__WARP32__ -D__WARP__")
-set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} --sysroot=${WARPSDK_SYSROOT}")
+set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
 set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc")
 
 set(UNIX 1)
