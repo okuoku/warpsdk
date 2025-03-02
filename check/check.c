@@ -1,1 +1,7 @@
-int check(int a, int b){ return a+b; }
+#include <stdio.h>
+
+int
+main(int ac, char** av){
+    printf("Hello!\n");
+    return 0;
+}
