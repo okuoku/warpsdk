@@ -1,21 +1,6 @@
-# Skip finding WARPSDK. It will define:
-#  WARPSDK_AR
-#  WARPSDK_WASM2C
-#  WARPSDK_CLANG
-#  WARPSDK_LINKER
-#include(${CMAKE_CURRENT_LIST_DIR}/../../protopaths.cmake)
-
-#get_filename_component(WARPSDK_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../.. ABSOLUTE)
-#set(WARPSDK_SYSROOT "${WARPSDK_ROOT}/sysroot")
-
-#list(APPEND CMAKE_MODULE_PATH "${WARPSDK_ROOT}/cmake/Modules")
-
-# Hacks
-#if(CMAKE_HOST_WIN32)
-#    # CMAKE_DIAGNOSE_UNSUPPORTED_CLANG Workaround
-#    message(STATUS "Disable Host_Win32 (WAR)")
-#    set(CMAKE_HOST_WIN32)
-#endif()
+if(NOT YUNIWARP_PLATFORM_PHASE)
+    message(FATAL_ERROR "No Yuniwarp platform phase defined.")
+endif()
 
 # Warp32 specific variables
 set(WARP32_TARGET_TRIPLE "wasm32")
@@ -23,8 +8,21 @@ set(WARP32_THREAD_MODEL "") # Enable Pthread defines
 set(WARP32_CFLAGS_WAR "")
 
 set(WARP32_DEFS "-D__WARP32LE__ -D__WARP32__ -D__WARP__")
-set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
-set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc")
+
+if(${YUNIWARP_PLATFORM_PHASE} STREQUAL "final")
+    set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
+    set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc -lc++")
+elseif(${YUNIWARP_PLATFORM_PHASE} STREQUAL "phase0")
+    # In libc build
+    set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=")
+    set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry")
+elseif(${YUNIWARP_PLATFORM_PHASE} STREQUAL "phase1")
+    # In LLVM runtime libraries build (libc++, libcxxabi, ...)
+    set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
+    set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc")
+else()
+    message(FATAL_ERROR "Unrecognized platform phase: [${YUNIWARP_PLATFORM_PHASE]")
+endif()
 
 set(UNIX 1)
 

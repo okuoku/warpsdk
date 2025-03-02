@@ -5,7 +5,7 @@ execute_process(COMMAND
     -DCMAKE_BUILD_TYPE=RelWithDebInfo
     -DCMAKE_MODULE_PATH=${CMAKE_CURRENT_LIST_DIR}/cmake/Modules
     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_LIST_DIR}/sysroot
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_LIST_DIR}/cmake/warp-toolchain.cmake
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_LIST_DIR}/cmake/warp-toolchain-phase1.cmake
     "-DLLVM_ENABLE_RUNTIMES=libunwind;libcxxabi;libcxx;compiler-rt"
     -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON
     -DCOMPILER_RT_BAREMETAL_BUILD=ON
