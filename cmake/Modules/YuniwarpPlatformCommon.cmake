@@ -9,9 +9,12 @@ set(WARP32_CFLAGS_WAR "")
 
 set(WARP32_DEFS "-D__WARP32LE__ -D__WARP32__ -D__WARP__")
 
+set(WARP32_BUILTIN_LIB "${WARPSDK_SYSROOT}/lib/yuniwarpphase1/libclang_rt.builtins-wasm32.a")
+set(WARM32_WORKAROUND_SYMBOLS " -Wl,--allow-undefined-file=${WARPSDK_POSIXROOT}/workaround.syms")
+
 if(${YUNIWARP_PLATFORM_PHASE} STREQUAL "final")
     set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
-    set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc -lc++")
+    set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc -lc++ -lc++abi -lunwind ${WARP32_BUILTIN_LIB} ${WARM32_WORKAROUND_SYMBOLS} -Wl,--error-limit=0")
 elseif(${YUNIWARP_PLATFORM_PHASE} STREQUAL "phase0")
     # In libc build
     set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=")

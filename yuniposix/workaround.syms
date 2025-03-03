@@ -1,0 +1,10 @@
+__fpclassifyl
+stderr
+stdin
+stdout
+mtx_lock
+cnd_wait
+mtx_unlock
+cnd_broadcast
+_exit
+__heap_start
