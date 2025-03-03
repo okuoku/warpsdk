@@ -4,3 +4,6 @@
 [submodule "llvm-project"]
 	path = llvm-project
 	url = https://github.com/okuoku/llvm-project
+[submodule "tools/wabt"]
+	path = tools/wabt
+	url = https://github.com/WebAssembly/wabt
