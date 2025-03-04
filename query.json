@@ -1,0 +1,25 @@
+{
+    "requests": [
+        {
+            "kind": "codemodel",
+            "version": 2
+        },
+        {
+            "kind": "configureLog",
+            "version": 1
+        },
+        {
+            "kind": "cache",
+            "version": 2
+        },
+        {
+            "kind": "cmakeFiles",
+            "version": 1
+        },
+        {
+            "kind": "toolchains",
+            "version": 1
+        }
+    ],
+    "client": "yuniwarp-build-phases"
+}
