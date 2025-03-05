@@ -35,7 +35,7 @@ set(UNIX 1)
 set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
 
 set(CMAKE_AR "${WARPSDK_AR}")
-foreach(lang C CXX)
+foreach(lang C CXX ASM)
     string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
     string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g") # ??
     string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -Os -DNDEBUG")
