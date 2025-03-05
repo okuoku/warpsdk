@@ -8,20 +8,21 @@ set(WARP32_THREAD_MODEL "") # Enable Pthread defines
 set(WARP32_CFLAGS_WAR "")
 
 set(WARP32_DEFS "-D__WARP32LE__ -D__WARP32__ -D__WARP__")
+set(WARP32_ABIFLAGS "-matomics -mbulk-memory")
 
 set(WARP32_BUILTIN_LIB "${WARPSDK_SYSROOT}/lib/yuniwarpphase1/libclang_rt.builtins-wasm32.a")
 set(WARM32_WORKAROUND_SYMBOLS " -Wl,--allow-undefined-file=${WARPSDK_POSIXROOT}/workaround.syms")
 
 if(${YUNIWARP_PLATFORM_PHASE} STREQUAL "final")
-    set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
-    set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc -lc++ -lc++abi -lunwind ${WARP32_BUILTIN_LIB} ${WARM32_WORKAROUND_SYMBOLS} -Wl,--error-limit=0")
+    set(WARP32_CFLAGS "${WARP32_ABIFLAGS} ${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
+    set(WARP32_LDFLAGS "-nostdlib -Xlinker --import-memory=env,memory -Wl,--shared-memory -Wl,--no-entry -lc -lc++ -lc++abi -lunwind ${WARP32_BUILTIN_LIB} ${WARM32_WORKAROUND_SYMBOLS} -Wl,--error-limit=0")
 elseif(${YUNIWARP_PLATFORM_PHASE} STREQUAL "phase0")
     # In libc build
-    set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=")
+    set(WARP32_CFLAGS "${WARP32_ABIFLAGS} ${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=")
     set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry")
 elseif(${YUNIWARP_PLATFORM_PHASE} STREQUAL "phase1")
     # In LLVM runtime libraries build (libc++, libcxxabi, ...)
-    set(WARP32_CFLAGS "${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
+    set(WARP32_CFLAGS "${WARP32_ABIFLAGS} ${WARP32_CFLAGS_WAR} --target=${WARP32_TARGET_TRIPLE} -fwasm-exceptions --sysroot=${WARPSDK_SYSROOT} -I ${WARPSDK_POSIXROOT}/include")
     set(WARP32_LDFLAGS "-nostdlib -Wl,--no-entry -lc")
 else()
     message(FATAL_ERROR "Unrecognized platform phase: [${YUNIWARP_PLATFORM_PHASE]")

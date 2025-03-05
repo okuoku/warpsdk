@@ -1,6 +1,6 @@
 #include <iostream>
 
-int __attribute__((export_name ("main")))
+int
 main(int ac, char** av){
   std::cout << "Hello!" << std::endl;
   return 0;

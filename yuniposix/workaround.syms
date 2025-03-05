@@ -1,7 +1,8 @@
 __fpclassifyl
-stderr
-stdin
-stdout
+read
+write
+lseek
+close
 mtx_lock
 cnd_wait
 mtx_unlock
