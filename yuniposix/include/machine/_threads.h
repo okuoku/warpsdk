@@ -9,9 +9,22 @@ extern "C" {
 /* Types */
 //typedef int (*thrd_start_t)(void*);
 //typedef void (*tss_dtor_t)(void*);
-typedef void* cnd_t;
-typedef void* mtx_t;
-typedef void* once_flag;
+
+struct yuniwarp_cnd_s {
+    void* obj[2];
+};
+
+struct yuniwarp_mtx_s {
+    void* obj[2];
+};
+
+struct yuniwarp_once_flag_s {
+    void* obj[2];
+};
+
+typedef struct yuniwarp_cnd_s cnd_t;
+typedef struct yuniwarp_mtx_s mtx_t;
+typedef struct yuniwarp_once_flag_s once_flag;
 typedef void* thrd_t; /* = pthread_t (but not interchangeable) */
 typedef void* tss_t;
 
