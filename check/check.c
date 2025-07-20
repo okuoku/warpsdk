@@ -2,6 +2,6 @@
 
 int
 main(int ac, char** av){
-    printf("Hello!\n");
+    printf("Hello %d!\n", ac);
     return 0;
 }
