@@ -1,7 +1,0 @@
-[tool_requires]
-llvmtoolchain-warp/[>=1]
-
-[generators]
-CMakeDeps
-CMakeToolchain
-
