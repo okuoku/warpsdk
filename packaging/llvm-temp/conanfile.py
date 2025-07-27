@@ -21,7 +21,7 @@ class WarpLlvmClangPackage(ConanFile):
             raise ConanInvalidConfiguration("Only applicable for Windows/x86_64")
 
     def package(self):
-        dirs_to_copy = ["bin"]
+        dirs_to_copy = ["bin", "lib/clang"]
         for dir_name in dirs_to_copy:
             copy(self, pattern=f"{dir_name}/*", src=self.extracted_path, dst=self.package_folder, keep_path=True)
 
