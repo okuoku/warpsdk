@@ -27,5 +27,22 @@ execute_process(COMMAND
     -DLIBUNWIND_ENABLE_SHARED=OFF
     -DLIBUNWIND_HIDE_SYMBOLS=ON
     -DCMAKE_C_COMPILER_TARGET=wasm32 # Should we have this on the toolchain file ???
-    -G Ninja)
+    -G Ninja
+    RESULT_VARIABLE rr
+)
+
+if(rr)
+    message(FATAL_ERROR "Failed to configure LLVM runtimes")
+endif()
+
+execute_process(COMMAND
+    ${CMAKE_COMMAND}
+    --build
+    ${builddir}
+    RESULT_VARIABLE rr
+)
+
+if(rr)
+    message(FATAL_ERROR "Failed to build LLVM runtimes")
+endif()
 

@@ -10,5 +10,5 @@ class BuildPhase0(ConanFile):
 
     def build(self):
         self.run("cmake -P ../../phase0.cmake")
-
+        self.run("cmake -P ../../phase1.cmake")
 
