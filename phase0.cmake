@@ -14,5 +14,20 @@ execute_process(COMMAND
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_LIST_DIR}/cmake/warp-toolchain-phase0.cmake
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
     -DPOSIX_CONSOLE=ON
-    -G Ninja)
+    -G Ninja
+    RESULT_VARIABLE rr
+)
 
+if(rr)
+    message(FATAL_ERROR "Failed to configure picolibc")
+endif()
+
+execute_process(COMMAND
+    ${CMAKE_COMMAND}
+    --build ${builddir}
+    RESULT_VARIABLE rr
+)
+
+if(rr)
+    message(FATAL_ERROR "Failed to build picolibc")
+endif()
