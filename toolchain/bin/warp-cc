@@ -1,0 +1,2 @@
+#!/bin/bash
+exec cmake -DKERNEL=ON -P `dirname $0`/../cmake/warp-cc.cmake -- __WARPTOOL__ "$@"
