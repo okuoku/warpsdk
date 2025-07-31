@@ -1,6 +1,16 @@
-set(builddir ${CMAKE_CURRENT_LIST_DIR}/build-runtimes)
+if(BUILD)
+    set(builddir ${BUILD})
+else()
+    set(builddir ${CMAKE_CURRENT_LIST_DIR}/build-runtimes)
+endif()
+
+if(PREFIX)
+    set(prefixdir ${PREFIX})
+else()
+    set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/prefix/llvm-runtimes)
+endif()
+
 set(querydir ${builddir}/.cmake/api/v1/query/client-yuniwarp)
-set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/prefix/llvm-runtimes)
 file(MAKE_DIRECTORY ${querydir})
 
 file(COPY_FILE ${CMAKE_CURRENT_LIST_DIR}/query.json ${querydir}/query.json)
