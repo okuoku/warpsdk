@@ -1,5 +1,6 @@
 set(builddir ${CMAKE_CURRENT_LIST_DIR}/build-runtimes)
 set(querydir ${builddir}/.cmake/api/v1/query/client-yuniwarp)
+set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/prefix/llvm-runtimes)
 file(MAKE_DIRECTORY ${querydir})
 
 file(COPY_FILE ${CMAKE_CURRENT_LIST_DIR}/query.json ${querydir}/query.json)
@@ -46,3 +47,14 @@ if(rr)
     message(FATAL_ERROR "Failed to build LLVM runtimes")
 endif()
 
+execute_process(COMMAND
+    ${CMAKE_COMMAND}
+    --install
+    ${builddir}
+    --prefix
+    ${prefixdir}
+    RESULT_VARIABLE rr)
+
+if(rr)
+    message(FATAL_ERROR "Failed to install LLVM runtimes")
+endif()
