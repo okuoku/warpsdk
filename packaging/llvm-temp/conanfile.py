@@ -24,4 +24,6 @@ class WarpLlvmClangPackage(ConanFile):
         dirs_to_copy = ["bin", "lib/clang"]
         for dir_name in dirs_to_copy:
             copy(self, pattern=f"{dir_name}/*", src=self.extracted_path, dst=self.package_folder, keep_path=True)
+    def layout(self):
+        self.layouts.package.buildenv_info.define_path("WARP_TOOLCHAIN_DIR", "")
 
