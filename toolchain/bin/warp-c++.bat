@@ -1,7 +1,7 @@
 @setlocal
 
-rem Workaround for path quoting. Logic took from
-rem Emscripten
+@rem Workaround for path quoting. Logic took from
+@rem Emscripten
 
 @if exist "%~f0" (
     set "MYDIR=%~dp0"
@@ -14,10 +14,10 @@ rem Lookup MYDIR manually from PATH
         set MYDIR=%%~dp$PATH:I
     ) else (
         echo !!!ERROR!!! Could not detect mydir.
-        exit 1
+        exit /b 1
     )
 )
 :FOUND_MYDIR
 
 @cmake -DCXX=ON -P %MYDIR%\..\cmake\warp-cc.cmake __WARPTOOL__ %*
-@exit %ERRORLEVEL%
+@exit /b %ERRORLEVEL%
