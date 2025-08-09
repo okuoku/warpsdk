@@ -22,8 +22,5 @@ class WarpSysroot(ConanFile):
                 copy(self, pattern=f"{dir_name}/*",
                      src=pkg, dst=self.package_folder, keep_path=True)
 
-    def layout(self):
-        self.layouts.package.buildenv_info.define_path("WARP_SYSROOT_PREFIX",
-                                                       "")
-        self.layouts.package.runenv_info.define_path("WARP_SYSROOT_PREFIX",
-                                                     "")
+    def package_info(self):
+        self.buildenv_info.define_path("WARP_SYSROOT_PREFIX", self.package_folder)
