@@ -10,14 +10,16 @@ class WarpSysroot(ConanFile):
     package_type = "unknown"
 
     def requirements(self):
+        self.requires("warp-crt/[>=0]")
         self.requires("picolibc-warp/[>=0]")
         self.requires("llvmruntime-warp/[>=0]")
 
     def package(self):
         dirs_to_copy = ["lib", "include"]
+        crt = self.dependencies["warp-crt"].package_folder;
         picolibc = self.dependencies["picolibc-warp"].package_folder;
         llvmruntime = self.dependencies["llvmruntime-warp"].package_folder;
-        for pkg in [picolibc, llvmruntime]:
+        for pkg in [crt, picolibc, llvmruntime]:
             for dir_name in dirs_to_copy:
                 copy(self, pattern=f"{dir_name}/*",
                      src=pkg, dst=self.package_folder, keep_path=True)

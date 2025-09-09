@@ -64,9 +64,16 @@ if(IN_LINK)
     if(KERNEL)
 
     else()
-        list(APPEND argprefix -nostdlib -shared
-            -L${sysroot_prefix}/lib -lm -Wl,--no-entry -Wl,--export=_start_c
-            ${sysroot_prefix}/lib/crt1.o -lc)
+        list(APPEND argprefix -nostdlib 
+            #-shared
+            #-Wl,--export=_start_c
+            -Wl,--export=__start
+            -L${sysroot_prefix}/lib 
+            -L${sysroot_prefix}/lib/yuniwarpphase1 # FIXME: adjust name
+            #-lm 
+            -lclang_rt.builtins-wasm32
+            -Wl,--no-entry 
+            ${sysroot_prefix}/lib/warpcrt_exec.o -lc)
         if(cxx)
             list(APPEND argprefix -lc++)
         endif()
