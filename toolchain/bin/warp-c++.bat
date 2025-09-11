@@ -19,5 +19,5 @@ rem Lookup MYDIR manually from PATH
 )
 :FOUND_MYDIR
 
-@cmake -DCXX=ON -P %MYDIR%\..\cmake\warp-cc.cmake __WARPTOOL__ %*
+@cmake -DCXX=ON -P %MYDIR%\..\cmake\warp-cc.cmake -- __WARPTOOL__ %*
 @exit /b %ERRORLEVEL%

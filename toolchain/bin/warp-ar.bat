@@ -19,5 +19,5 @@
 )
 :FOUND_MYDIR
 
-@cmake -DTOOL=ar -P %MYDIR%\..\cmake\warp-binutils.cmake __WARPTOOL__ %*
+@cmake -DTOOL=ar -P %MYDIR%\..\cmake\warp-binutils.cmake -- __WARPTOOL__ %*
 @exit /b %ERRORLEVEL%

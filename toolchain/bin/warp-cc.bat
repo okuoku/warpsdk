@@ -19,5 +19,5 @@
 )
 :FOUND_MYDIR
 
-@cmake -P %MYDIR%\..\cmake\warp-cc.cmake __WARPTOOL__ %*
+@cmake -P %MYDIR%\..\cmake\warp-cc.cmake -- __WARPTOOL__ %*
 @exit /b %ERRORLEVEL%
