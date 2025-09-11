@@ -26,8 +26,10 @@ class WarpToolchainWrapper(ConanFile):
     def package(self):
         warp_tools = ["warp-cc", "warp-c++", "warp-ar", "warp-nm",
                       "warp-ld"]
+        if self.settings.os == "Windows":
+            for i,x in enumerate(warp_tools):
+                warp_tools[i] = x + ".bat"
         toolchain = os.path.join(self.source_folder, "..", "..", "toolchain")
-        print(toolchain)
         toolchain_bin = os.path.join(toolchain, "bin")
         toolchain_cmake = os.path.join(toolchain, "cmake")
         bindir = os.path.join(self.package_folder, "bin")
@@ -41,7 +43,13 @@ class WarpToolchainWrapper(ConanFile):
     def package_info(self):
         self.buildenv_info.prepend_path("PATH", os.path.join(self.package_folder, "bin"))
         self.cpp_info.bindirs.append(os.path.join(self.package_folder, "bin"))
-        self.conf_info.define("tools.build:compiler_executables", {
-            "c": "warp-cc",
-            "cpp": "warp-c++",
-            })
+        if self.settings.os == "Windows":
+            self.conf_info.define("tools.build:compiler_executables", {
+                "c": "warp-cc.bat",
+                "cpp": "warp-c++.bat",
+                })
+        else:
+            self.conf_info.define("tools.build:compiler_executables", {
+                "c": "warp-cc",
+                "cpp": "warp-c++",
+                })
