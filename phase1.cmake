@@ -3,13 +3,13 @@
 if(BUILD)
     set(builddir ${BUILD})
 else()
-    set(builddir ${CMAKE_CURRENT_LIST_DIR}/build-runtimes)
+    set(builddir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/build/runtimes)
 endif()
 
 if(PREFIX)
     set(prefixdir ${PREFIX})
 else()
-    set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/prefix/llvm-runtimes)
+    set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/llvm-runtimes)
 endif()
 
 set(querydir ${builddir}/.cmake/api/v1/query/client-yuniwarp)
