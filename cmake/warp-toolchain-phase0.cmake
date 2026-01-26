@@ -1,2 +1,3 @@
 set(CMAKE_SYSTEM_NAME YuniwarpPhase0)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 include(${CMAKE_CURRENT_LIST_DIR}/warp-toolchain.cmake)

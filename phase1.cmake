@@ -39,7 +39,6 @@ execute_process(COMMAND
     -DLIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY=OFF
     -DLIBUNWIND_ENABLE_SHARED=OFF
     -DLIBUNWIND_HIDE_SYMBOLS=ON
-    -DCMAKE_C_COMPILER_TARGET=wasm32 # Should we have this on the toolchain file ???
     -G Ninja
     RESULT_VARIABLE rr
 )

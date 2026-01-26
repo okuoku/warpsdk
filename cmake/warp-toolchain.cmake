@@ -14,6 +14,5 @@ set(CMAKE_CROSSCOMPILING TRUE)
 
 foreach(lang C CXX)
     set(CMAKE_${lang}_COMPILER "${WARPSDK_CLANG}")
-    set(CMAKE_${lang}_COMPILER_ID Clang)
-    set(CMAKE_${lang}_COMPILER_WORKS TRUE)
+    set(CMAKE_${lang}_COMPILER_TARGET "wasm32")
 endforeach()
