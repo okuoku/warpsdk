@@ -1,2 +1,2 @@
-set(CMAKE_SYSTEM_NAME YuniwarpPhase1)
+set(CMAKE_SYSTEM_NAME Yuniwarp)
 include(${CMAKE_CURRENT_LIST_DIR}/warp-toolchain.cmake)
