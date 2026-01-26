@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(warp_crt)
+project(warp_crt NONE)
 
 function(calc_objname out src)
     cmake_path(SET srcpath NORMALIZE ${src})

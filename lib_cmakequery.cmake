@@ -1,0 +1,5 @@
+function(cmakequery builddir)
+    set(querydir ${builddir}/.cmake/api/v1/query/client-yuniwarp)
+    file(MAKE_DIRECTORY ${querydir})
+    file(COPY_FILE ${CMAKE_CURRENT_LIST_DIR}/query.json ${querydir}/query.json)
+endfunction()

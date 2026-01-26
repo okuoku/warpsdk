@@ -1,9 +1,9 @@
-# Phase2: LLVM Compiler/C++ Runtimes
+# Phase1: LLVM Compiler/C++ Runtimes
 
 if(BUILD)
     set(builddir ${BUILD})
 else()
-    set(builddir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/build/runtimes)
+    set(builddir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/build/llvm-runtimes)
 endif()
 
 if(PREFIX)
@@ -12,10 +12,8 @@ else()
     set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/llvm-runtimes)
 endif()
 
-set(querydir ${builddir}/.cmake/api/v1/query/client-yuniwarp)
-file(MAKE_DIRECTORY ${querydir})
-
-file(COPY_FILE ${CMAKE_CURRENT_LIST_DIR}/query.json ${querydir}/query.json)
+include(${CMAKE_CURRENT_LIST_DIR}/lib_cmakequery.cmake)
+cmakequery(${builddir})
 
 execute_process(COMMAND
     ${CMAKE_COMMAND} 

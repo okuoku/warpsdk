@@ -3,7 +3,7 @@
 if(BUILD)
     set(builddir ${BUILD})
 else()
-    set(builddir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/build/libc)
+    set(builddir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/build/crt)
 endif()
 
 if(PREFIX)
@@ -11,10 +11,9 @@ if(PREFIX)
 else()
     set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/picolibc)
 endif()
-set(querydir ${builddir}/.cmake/api/v1/query/client-yuniwarp)
-file(MAKE_DIRECTORY ${querydir})
 
-file(COPY_FILE ${CMAKE_CURRENT_LIST_DIR}/query.json ${querydir}/query.json)
+include(${CMAKE_CURRENT_LIST_DIR}/lib_cmakequery.cmake)
+cmakequery(${builddir})
 
 execute_process(COMMAND
     ${CMAKE_COMMAND} 
@@ -24,7 +23,6 @@ execute_process(COMMAND
     -DCMAKE_MODULE_PATH=${CMAKE_CURRENT_LIST_DIR}/cmake/Modules
     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_LIST_DIR}/sysroot
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_LIST_DIR}/cmake/warp-toolchain-phase0.cmake
-    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
     -G Ninja
     RESULT_VARIABLE rr
 )
