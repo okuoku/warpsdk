@@ -1,5 +1,7 @@
 # Prerequisite: build-llvm.cmake to build toolchain
 
+set(sysroot ${CMAKE_CURRENT_LIST_DIR}/sysroot)
+
 if(WIN32)
     message(FATAL_ERROR notyet)
 else()
@@ -20,4 +22,11 @@ endfunction()
 
 runphase(phase0crt)
 runphase(phase0libc)
+if(EXISTS "${sysroot}")
+    file(REMOVE_RECURSE "${sysroot}")
+endif()
+file(COPY 
+    ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/picolibc/lib
+    ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/picolibc/include
+    DESTINATION ${sysroot})
 runphase(phase1)
