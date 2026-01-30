@@ -30,3 +30,11 @@ file(COPY
     ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/picolibc/include
     DESTINATION ${sysroot})
 runphase(phase1)
+
+include(${CMAKE_CURRENT_LIST_DIR}/lib_genpkg.cmake)
+genpkg(warp-crt "0.0" 
+    ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/crt)
+genpkg(warp-picolibc "0.0" 
+    ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/picolibc)
+genpkg(warp-llvm-rt "0.0" 
+    ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/llvm-runtimes)

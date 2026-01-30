@@ -1,28 +1,40 @@
-import os
+# sysroot package should be built on user-side
+# (to prevent wasting package storage space...)
+
 from conan import ConanFile
 from conan.tools.files import copy
+from pathlib import Path
 
 class WarpSysroot(ConanFile):
     name = "warp-sysroot"
-    version = "0.0.1.warp0"
+    version = "0.0.0.warp0"
     license = "DO_NOT_EXPORT"
-    description = "Sysroot files for Warp runtime"
-    package_type = "unknown"
+    description = "Warp Sysroot"
+    package_type = "unknown" # both shared-library and static-library
+    #exports_sources = "python/*.py"
 
     def requirements(self):
         self.requires("warp-crt/[>=0]")
-        self.requires("picolibc-warp/[>=0]")
-        self.requires("llvmruntime-warp/[>=0]")
+        self.requires("warp-llvm-rt/[>=0]")
+        self.requires("warp-picolibc/[>=0]")
 
     def package(self):
-        dirs_to_copy = ["lib", "include"]
-        crt = self.dependencies["warp-crt"].package_folder;
-        picolibc = self.dependencies["picolibc-warp"].package_folder;
-        llvmruntime = self.dependencies["llvmruntime-warp"].package_folder;
-        for pkg in [crt, picolibc, llvmruntime]:
-            for dir_name in dirs_to_copy:
-                copy(self, pattern=f"{dir_name}/*",
-                     src=pkg, dst=self.package_folder, keep_path=True)
+        out = Path(self.package_folder)
+        warpsdk = out 
+        # Merge crt + llvm-rt + picolibc into warpsdk/sysroot
+        sysroot = warpsdk / "sysroot"
+        dirnames = ["lib", "include"]
+        deps = ["warp-crt", "warp-llvm-rt", "warp-picolibc"]
+        for pkgname in deps:
+            dep = self.dependencies[pkgname]
+            srcdir = dep.package_folder
+            for d in dirnames:
+                copy(self, pattern="*", src=srcdir, dst=str(sysroot),
+                     keep_path=True)
 
     def package_info(self):
-        self.buildenv_info.define_path("WARP_SYSROOT_PREFIX", self.package_folder)
+        self.buildenv_info.define_path("WARPSDK_SYSROOT", self.package_folder)
+        self.cpp_info.set_property("cmake_extra_variables", {
+              "WARPSDK_SYSROOT": self.package_folder
+            })
+

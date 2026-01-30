@@ -9,7 +9,7 @@ endif()
 if(PREFIX)
     set(prefixdir ${PREFIX})
 else()
-    set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/picolibc)
+    set(prefixdir ${CMAKE_CURRENT_LIST_DIR}/_localbuild/prefix/crt)
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/lib_cmakequery.cmake)
