@@ -19,6 +19,7 @@ class WarpCMakeTC(ConanFile):
 
     def package_info(self):
         dst = os.path.join(self.package_folder, "cmake")
+        self.buildenv_info.define_path("WARPSDK_CMAKE_MODULES", dst)
         self.runenv_info.define_path("WARPSDK_CMAKE_MODULES", dst)
         self.cpp_info.set_property("cmake_extra_variables", {
               "WARPSDK_CMAKE_MODULES": dst
